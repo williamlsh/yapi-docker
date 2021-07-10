@@ -1,0 +1,24 @@
+version: "3"
+services:
+  yapi:
+    image: yapi
+    container_name: yapi
+    ports:
+      - 3000:3000
+    volumes:
+      - "./config.json:/app/config.json"
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    volumes:
+      - "dbdata:/data/db"
+
+volumes:
+  dbdata:
