@@ -1,12 +1,28 @@
 version: "3"
 services:
   yapi:
-    image: yapi
+    image: ghcr.io/williamlsh/yapi-docker:v0.1.0
     container_name: yapi
+    restart: on-failure
+    environment:
+      WAIT_HOSTS: mongo:27017
     ports:
       - 3000:3000
     volumes:
       - "./config.json:/app/config.json"
+    depends_on:
+      - mongo
+      - yapi-intermediate
+
+  yapi-intermediate:
+    image: ghcr.io/williamlsh/yapi-docker:v0.1.0
+    command: sh -c "../wait; node --unhandled-rejections=strict server/install.js"
+    environment:
+      WAIT_HOSTS: mongo:27017
+    volumes:
+      - "./config.json:/app/config.json"
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo
@@ -16,7 +32,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
     ports:
-      - 27017:27017
+      - 127.0.0.1:27017:27017
     volumes:
       - "dbdata:/data/db"
 
