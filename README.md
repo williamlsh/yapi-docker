@@ -1,6 +1,6 @@
 # yapi docker
 
-Dockerized [yapi](https://github.com/jinfeijie/yapi) deployment.
+Dockerized [yapi](https://github.com/YMFE/yapi) deployment.
 
 ## How does dockerized yapi work?
 
